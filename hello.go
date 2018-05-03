@@ -25,6 +25,10 @@ func handle(w http.ResponseWriter, r *http.Request) {
 		update(w, r)
 		return
 	}
+	if r.URL.Path == "/prices" {
+		prices(w, r)
+		return
+	}
 	fmt.Fprintln(w, "Hello, world!")
 }
 
@@ -161,4 +165,61 @@ func update(w http.ResponseWriter, r *http.Request) {
 	}
 
 	return
+}
+
+func prices(w http.ResponseWriter, r *http.Request) {
+	ctx := appengine.NewContext(r)
+
+	var buildings []Building
+
+	q := datastore.NewQuery("Building")
+
+	for t := q.Run(ctx); ; {
+		var building Building
+		key, err := t.Next(&building)
+		if err == datastore.Done {
+			break
+		}
+		if err != nil {
+			fmt.Fprintf(w, "ERROR: %s\n", err)
+		}
+
+		var unitTypes []UnitType
+		unitTypesKeys, err := datastore.NewQuery("UnitType").Ancestor(key).GetAll(ctx, &unitTypes)
+		// if err != nil {
+		// 	fmt.Fprintf(w, "ERROR: %s\n", err)
+		// }
+		// fmt.Fprintf(w, "%+v\n", unitTypes)
+
+		building.UnitTypes = unitTypes
+
+		for i, utKey := range unitTypesKeys {
+			var units []Unit
+			unitsKeys, _ := datastore.NewQuery("Unit").Ancestor(utKey).GetAll(ctx, &units)
+
+			// if err != nil {
+			// 	fmt.Fprintf(w, "ERROR: %s\n", err)
+			// }
+			// fmt.Fprintf(w, "%+v\n", units)
+
+			building.UnitTypes[i].Units = units
+
+			for j, uKey := range unitsKeys {
+				var prices []Price
+				datastore.NewQuery("Price").Ancestor(uKey).GetAll(ctx, &prices)
+				building.UnitTypes[i].Units[j].Prices = prices
+
+				// if err != nil {
+				// 	fmt.Fprintf(w, "ERROR: %s\n", err)
+				// }
+				// fmt.Fprintf(w, "%+v\n", prices)
+			}
+		}
+
+		buildings = append(buildings, building)
+	}
+
+	buildingsJSON, _ := json.Marshal(buildings)
+	fmt.Fprint(w, string(buildingsJSON[:]))
+
 }

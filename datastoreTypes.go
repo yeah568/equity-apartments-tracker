@@ -29,14 +29,17 @@ type Unit struct {
 	Photos        []string `datastore:",noindex"`
 	Videos        []string `datastore:",noindex"`
 	Matterports   []string `datastore:",noindex"`
+	Prices        []Price  `datastore:"-"`
 }
 
 type UnitType struct {
-	Name string
+	Name  string
+	Units []Unit `datastore:"-"`
 }
 
 type Building struct {
-	Name string
+	Name      string
+	UnitTypes []UnitType `datastore:"-"`
 }
 
 func NewBuilding(a ApartmentData) *Building {
