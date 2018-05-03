@@ -21,11 +21,11 @@ func main() {
 }
 
 func handle(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path == "/update" {
+	if r.URL.Path == "/api/update" {
 		update(w, r)
 		return
 	}
-	if r.URL.Path == "/prices" {
+	if r.URL.Path == "/api/prices" {
 		prices(w, r)
 		return
 	}
