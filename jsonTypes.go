@@ -35,7 +35,7 @@ type photo struct {
 	MediaTags    []string
 }
 
-type availableUnit struct {
+type AvailableUnit struct {
 	LedgerID      string `json:"LedgerId"`
 	UnitID        string `json:"UnitId"`
 	BuildingID    string `json:"BuildingId"`
@@ -61,7 +61,7 @@ type bedroomType struct {
 	ID             int `json:"Id"`
 	DisplayName    string
 	BedroomCount   int
-	AvailableUnits []availableUnit
+	AvailableUnits []AvailableUnit
 }
 
 type tileOptions struct {
@@ -81,6 +81,7 @@ type ilsPhone struct {
 
 // ApartmentData The JSON structure for apartment data from Equity Residential Sites
 type ApartmentData struct {
+	BuildingName            string
 	BedroomTypes            []bedroomType
 	PremiumUnits            []bedroomType
 	DefaultView             string
