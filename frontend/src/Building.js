@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Card, Accordion, Header } from 'semantic-ui-react';
+import { Card, Accordion } from 'semantic-ui-react';
 import Unit from './Unit'
 
 class Building extends PureComponent {

@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Container, Form, Grid, Header, Menu, Rail, Segment, Sticky, Checkbox } from 'semantic-ui-react';
+import { Card, Form, Grid, Header, Menu, Rail, Segment, Sticky, Checkbox } from 'semantic-ui-react';
 import Building from './Building';
 import './App.css';
 
@@ -62,7 +62,7 @@ class App extends Component {
     console.log(name, value);
 
     this.setState({
-      [name]: parseInt(value)
+      [name]: parseInt(value, 10)
     }, () => {
       this.filterList();
     });

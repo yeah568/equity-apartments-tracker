@@ -1,5 +1,5 @@
 import React, { PureComponent } from 'react';
-import { Card, Accordion, Header, Grid, Statistic, Image } from 'semantic-ui-react';
+import { Card, Grid, Statistic, Image } from 'semantic-ui-react';
 import { Line } from 'react-chartjs-2';
 
 const options = {
@@ -25,8 +25,7 @@ const options = {
       {
         type: 'linear',
         ticks: {
-          stepSize: 1,
-          callback: value => '$' + value
+          callback: value => Math.floor(value) === value ? '$' + value : null
         }
       }
     ]
