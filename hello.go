@@ -12,6 +12,8 @@ import (
 
 	"google.golang.org/appengine"
 	"google.golang.org/appengine/datastore"
+	"google.golang.org/appengine/log"
+	"google.golang.org/appengine/memcache"
 	"google.golang.org/appengine/urlfetch"
 )
 
@@ -163,6 +165,8 @@ func update(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	}
+
+	memcache.Delete(ctx, "prices")
 }
 
 func prices(w http.ResponseWriter, r *http.Request) {
@@ -177,6 +181,15 @@ func prices(w http.ResponseWriter, r *http.Request) {
 	}
 
 	ctx := appengine.NewContext(r)
+
+	if item, err := memcache.Get(ctx, "prices"); err == memcache.ErrCacheMiss {
+		log.Infof(ctx, "item not in the cache")
+	} else if err != nil {
+		log.Errorf(ctx, "error getting item: %v", err)
+	} else {
+		fmt.Fprintf(w, string(item.Value[:]))
+		return
+	}
 
 	var buildings []Building
 
@@ -228,6 +241,12 @@ func prices(w http.ResponseWriter, r *http.Request) {
 	}
 
 	buildingsJSON, _ := json.Marshal(buildings)
+	buildingsJSONMemcacheItem := &memcache.Item{
+		Key:        "prices",
+		Value:      buildingsJSON,
+		Expiration: time.Duration(24) * time.Hour,
+	}
+	memcache.Set(ctx, buildingsJSONMemcacheItem)
 	fmt.Fprint(w, string(buildingsJSON[:]))
 
 }
