@@ -43,6 +43,9 @@ var siteURLs = []buildingSite{
 	{"HarborSteps", "http://www.equityapartments.com/seattle/downtown-seattle/harbor-steps-apartments"},
 	{"Olympus", "http://www.equityapartments.com/seattle/belltown/olympus-apartments"},
 	{"Cascade", "http://www.equityapartments.com/seattle/south-lake-union/cascade-apartments"},
+	{"CentennialTower", "http://www.equityapartments.com/seattle/belltown/centennial-tower-and-court-apartments"},
+	{"Alcyone", "http://www.equityapartments.com/seattle/south-lake-union/alcyone-apartments"},
+	{"Seventh and James", "http://www.equityapartments.com/seattle/first-hill/seventh-and-james-apartments"},
 }
 
 func getSiteData(ctx context.Context, bs buildingSite, ch chan<- *ApartmentData) (ApartmentData, error) {
