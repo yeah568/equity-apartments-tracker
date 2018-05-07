@@ -1,6 +1,7 @@
 import React, { PureComponent } from 'react';
 import { Card, Grid, Statistic, Image } from 'semantic-ui-react';
 import { Line } from 'react-chartjs-2';
+import moment from 'moment';
 
 const options = {
   maintainAspectRatio: false,
@@ -67,7 +68,9 @@ class Unit extends PureComponent {
       <Card fluid>
         <Card.Content>
           <Card.Header>
-            {this.props.unit.UnitID}
+            <span style={{textDecoration: this.props.unit.IsAvailable ? 'none' : 'line-through'}}>
+            {this.props.unit.UnitID} - Listed {moment(this.props.unit.Prices[0].DateRetrieved).fromNow()}
+            </span>
           </Card.Header>
         </Card.Content>
         <Card.Content>
