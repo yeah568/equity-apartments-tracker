@@ -47,6 +47,7 @@ var siteURLs = []buildingSite{
 	{"Alcyone", "http://www.equityapartments.com/seattle/south-lake-union/alcyone-apartments"},
 	{"Seventh and James", "http://www.equityapartments.com/seattle/first-hill/seventh-and-james-apartments"},
 	{"The Heights on Capitol Hill", "http://www.equityapartments.com/seattle/capitol-hill/the-heights-on-capitol-hill-apartments"},
+	{"Chloe", "http://www.equityapartments.com/seattle/pike-pine/chloe-apartments"}
 }
 
 func getSiteData(ctx context.Context, bs buildingSite, ch chan<- *ApartmentData) (ApartmentData, error) {
